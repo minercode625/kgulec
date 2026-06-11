@@ -19,7 +19,7 @@ schema_version: 1
 | `professor` | string | `"교수명"` | 강의자 이름 → 템플릿 `\professor` |
 | `department` | string | `"소속"` | 학과/학부/학교 → 템플릿 `\department` (타이틀 institute 영역) |
 | `language` | enum `ko`\|`en` | `ko` | 기본 슬라이드 언어 (사용자가 명시 지정 시 덮어씀) |
-| `lecture_minutes` | int | `75` | 기본 강의 길이(분) → 분량 가이드의 슬라이드 수 기준 |
+| `lecture_minutes` | int | `180` | 기본 강의 길이(분, 3시간) → 분량 가이드의 슬라이드 수 기준. **모드 A는 생성 시 이번 강의 시간을 확인하고 특강 등은 override한다**(이번 강의 한정, config는 덮어쓰지 않음) |
 | `theme` | string | `"Ocean"` | 선택한 색 프리셋 이름 (`color-presets.md` 참조) |
 | `theme_colors` | object | Ocean 값 | 프리셋의 해석된 4색. **이름이 아니라 이 값이 권위 있음**(카탈로그가 바뀌어도 사용자 슬라이드 안 흔들림) |
 
@@ -39,7 +39,7 @@ config_version: 1
 professor: 홍길동
 department: 경기대학교 컴퓨터공학부
 language: ko
-lecture_minutes: 75
+lecture_minutes: 180
 theme: Ocean
 theme_colors:
   base:  "91,155,213"

@@ -17,7 +17,9 @@ argument-hint: "[과목/주제]"
    - 있으면: **defaults ⊕ config 병합**(누락 키는 기본값). 절대 크래시 금지.
 3. **탑업 마이그레이션**: `config.config_version < schema_version`이면 `shared/config-schema.md`의 "마이그레이션 규칙"대로 처리(백업 → 새 필드 채움/필요한 것만 질문 → 버전 범프 후 저장).
 
-config가 제공하는 값(`professor`, `department`, `language`, `lecture_minutes`, `theme`/`theme_colors`)은 **1단계에서 재질문하지 않는다.**
+config가 제공하는 값(`professor`, `department`, `language`, `theme`/`theme_colors`)은 **1단계에서 재질문하지 않는다.**
+
+단 **강의 시간(`lecture_minutes`)은 예외**다. config 값은 *기본값*일 뿐, 이번 강의에는 다를 수 있다(예: 평소 3시간이지만 특강은 1시간). 따라서 1단계에서 **이번 강의 시간을 확인**한다(아래 1-3 참조).
 
 ## 1단계: 입력 수집 및 작업 폴더 준비
 
@@ -47,7 +49,8 @@ config가 제공하는 값(`professor`, `department`, `language`, `lecture_minut
 | **다음 주차 대주제·세부** | — | 마지막 "다음 주차 예고" 슬라이드용 |
 | **주차 번호** | `\week` | 폴더명에서 추론되면 확인만 |
 | **강의 날짜** | `\naljja` | 미지정 시 오늘 날짜 제안 후 확인 |
-| (교수명·소속·언어·강의시간) | — | **config에 있으면 질문 생략.** 없을 때만 물어보고, 자주 쓰면 /kgulec:setup 권유 |
+| **강의 시간** | — | **이번 강의 길이를 항상 확인한다.** config `lecture_minutes`를 기본값으로 제시하고 "이번 강의도 N분인가요? (특강 등 다르면 알려주세요)"로 확인 → 다르면 그 값으로 override(특강 1시간 등). config에 없으면 기본 3시간(180분)을 제안하며 묻는다. 확정값은 슬라이드 수 기준(`shared/slide-authoring-rules.md` 분량 가이드)이며, config는 덮어쓰지 않는다(이번 강의 한정). |
+| (교수명·소속·언어) | — | **config에 있으면 질문 생략.** 없을 때만 물어보고, 자주 쓰면 /kgulec:setup 권유 |
 
 **대주제·세부 주제가 없으면** 임의로 지어내지 말고 후보를 예시로 제시해 고르게 한다.
 예: "딥러닝개론 N주차라면 — ① CNN 기초 ② RNN/LSTM ③ Attention/Transformer 중 무엇으로 할까요?"
@@ -62,13 +65,13 @@ config가 제공하는 값(`professor`, `department`, `language`, `lecture_minut
 
 ## 2단계: 자료 조사
 
-충분히 인터넷 검색하여 (config의 `lecture_minutes` 기준) 강의 분량에 맞는 내용을 포괄 조사한다. 모든 내용은 사실 기반(확실치 않으면 추측 금지, 검증 후 포함).
+충분히 인터넷 검색하여 (1단계에서 확정한 이번 강의 시간 기준) 강의 분량에 맞는 내용을 포괄 조사한다. 모든 내용은 사실 기반(확실치 않으면 추측 금지, 검증 후 포함).
 
 **`./ref` 우선(필수)**: 있으면 그 자료(PDF는 Read로 직접)를 **1차 출처**로 삼아 범위·용어·표기·예시를 일관되게. 웹 검색은 보완용. 현재 주제와 직접 관련된 내용만 사용. 큰 PDF는 Agent에 요약 위임. `./ref` 내용도 오래/부정확하면 웹으로 교차검증.
 
 ## 3단계: Outline 제시 및 승인
 
-3시간(또는 `lecture_minutes`) 분량 Outline(섹션 구성·핵심 내용·슬라이드 수 예상)을 제시하고 **사용자 승인** 후 진행.
+확정한 이번 강의 시간(기본 3시간) 분량 Outline(섹션 구성·핵심 내용·슬라이드 수 예상)을 제시하고 **사용자 승인** 후 진행.
 
 ## 4단계: 언어 결정
 

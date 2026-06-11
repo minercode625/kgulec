@@ -37,7 +37,7 @@ config에 이미 값이 있으면 그 값을 기본으로 제시하고 바꿀지
 | 교수 이름 | `professor` | 타이틀 `\professor` |
 | 소속(학과/학부) | `department` | 타이틀 institute (예: 경기대학교 컴퓨터공학부) |
 | 기본 언어 | `language` | `ko` 또는 `en` |
-| 기본 강의 시간(분) | `lecture_minutes` | 분량 가이드 기준(예: 50/75/150) |
+| 기본 강의 시간(분) | `lecture_minutes` | 분량 가이드 기준(예: 50/75/150/180=3시간 기본). 이 값은 *기본값*이며, 모드 A가 강의마다 확인해 특강 등은 override한다 |
 
 ## 4단계: config 저장
 
