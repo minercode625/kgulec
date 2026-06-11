@@ -18,7 +18,7 @@ A/B/C는 "강의자료 만들어줘" 같은 자연어로도 자동 트리거된�
 ## 설치 (마켓플레이스)
 
 ```
-/plugin marketplace add <github-owner>/<repo>
+/plugin marketplace add minercode625/kgulec
 /plugin install kgulec@kgulec-marketplace
 ```
 

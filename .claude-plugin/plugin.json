@@ -8,5 +8,7 @@
     "email": "seowangduk@gmail.com"
   },
   "license": "MIT",
+  "homepage": "https://github.com/minercode625/kgulec",
+  "repository": "https://github.com/minercode625/kgulec",
   "keywords": ["beamer", "latex", "lecture", "slides", "kyonggi", "강의자료", "tcolorbox"]
 }
