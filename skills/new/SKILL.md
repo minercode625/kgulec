@@ -103,7 +103,7 @@ config `language`를 기본으로 한다. 사용자가 명시 지정하면 그�
    - `\course`/`\week`/`\topic`/`\naljja` ← 1단계 입력
    - **PRIMARY THEME 4색** ← config `theme_colors`(base→`mqblue`, deep→`mqdeepblue`, mid→`mqgrayblue`, light→`mqlightblue`)로 `% === PRIMARY THEME ===`~`% === END PRIMARY THEME ===` 4줄 치환. 의미색·`\colorlet`은 그대로.
 3. **로고 배치(필수)**: `\titlegraphic`은 `main.tex`와 같은 폴더의 `kyonggi_logo.png`를 찾는다. `${CLAUDE_PLUGIN_ROOT}/assets/kyonggi_logo.png`를 출력 디렉토리로 복사한다(macOS/Linux: `cp "${CLAUDE_PLUGIN_ROOT}/assets/kyonggi_logo.png" ./` · Windows: `Copy-Item "$env:CLAUDE_PLUGIN_ROOT\assets\kyonggi_logo.png" .`). 없어도 `\IfFileExists`라 컴파일 안 깨짐.
-4. **`shared/gotcha/`의 .md를 모두 읽고** 동일 실수를 반복하지 않는다.
+4. **번들 `shared/gotcha/` + 사용자 `~/.claude/kgulec/gotcha/`(있으면)의 .md를 모두 읽고** 동일 실수를 반복하지 않는다.
 
 핵심 원칙:
 - **컴파일 가능한 완전한 .tex** 생성.
@@ -127,4 +127,9 @@ config `language`를 기본으로 한다. 사용자가 명시 지정하면 그�
 
 ## 8단계: Gotcha 기록 (필수 — 건너뛰지 않음)
 
-컴파일/품질검사에서 발견·해결한 문제 중 `shared/gotcha/`에 없는 **새 에러**만 `.md`로 기록(증상·원인·해결). 기존 파일 먼저 확인. 새 에러 없어도 이 단계는 의식적으로 확인하고 넘어간다.
+컴파일/품질검사에서 발견·해결한 문제 중 **번들·사용자 gotcha 어디에도 없는 새 에러**만 `.md`로 기록(증상·원인·해결).
+
+- **쓰는 위치 = 사용자 폴더** `~/.claude/kgulec/gotcha/`(Windows `%USERPROFILE%\.claude\kgulec\gotcha\`). 없으면 만든다(macOS/Linux `mkdir -p ~/.claude/kgulec/gotcha` · Windows `New-Item -ItemType Directory -Force $HOME\.claude\kgulec\gotcha`).
+- **번들 `shared/gotcha/`(읽기전용)에는 쓰지 않는다** — 플러그인 업데이트 시 사라지고 사용자 git도 아니다(config와 동일 원칙).
+- 중복 금지: 기존(번들 + 사용자) 먼저 확인.
+- 새 에러 없어도 이 단계는 의식적으로 확인하고 넘어간다.

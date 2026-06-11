@@ -26,7 +26,7 @@ A/B/C는 "강의자료 만들어줘" 같은 자연어로도 자동 트리거된�
 
 ## 사용자 설정 (업데이트 안전)
 
-공통 설정은 **플러그인 폴더 바깥** `~/.claude/kgulec/config.md`에 저장된다. 플러그인을 업데이트(`/plugin update`)해도 설정은 유지된다.
+공통 설정은 **플러그인 폴더 바깥** `~/.claude/kgulec/config.md`에 저장된다. 같은 폴더의 `~/.claude/kgulec/gotcha/`에는 작업 중 새로 발견한 컴파일 에러 기록이 쌓인다. 둘 다 플러그인 폴더 바깥이라 업데이트(`/plugin update`)해도 유지된다. (번들 `shared/gotcha/`는 읽기전용 참조 — 새 기록은 사용자 폴더에만 쓴다.)
 
 - 저장: 교수명·소속·기본 언어·기본 강의시간·색 테마(이름 + 해석된 4색).
 - 스키마가 올라가 새 항목이 생기면, 다음 실행 때 **기존 값은 유지한 채 새 항목만** 자동 보강(필요 시 그것만 질문)한다. 스키마 정의는 `shared/config-schema.md`.
@@ -53,7 +53,7 @@ kgulec/
     color-presets.md            색 프리셋 카탈로그
     config-schema.md            사용자 설정 스키마 + 마이그레이션 규칙
     environment-check.md        TeX·PDF→PNG 도구 점검 + 설치 안내(동의 게이트)
-    gotcha/                     반복 실수 방지 기록
+    gotcha/                     반복 실수 방지 기록 (번들·읽기전용; 사용자 발견분은 ~/.claude/kgulec/gotcha/)
   assets/
     kyonggi_logo.png            경기대 로고 (상표, 사용자 배치)
     README.md

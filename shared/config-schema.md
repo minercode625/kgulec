@@ -4,6 +4,7 @@
 
 - 설정 파일 경로: **사용자 홈의 `.claude/kgulec/config.md`** (플러그인 폴더 바깥 → 플러그인 업데이트가 덮어쓰지 않음). macOS/Linux `~/.claude/kgulec/config.md`, Windows `%USERPROFILE%\.claude\kgulec\config.md`.
 - 이 스키마 파일은 버전관리 대상(읽기전용). config 파일은 비버전(사용자 소유).
+- **사용자 데이터 폴더 `~/.claude/kgulec/`** 에는 `config.md` 외에 **`gotcha/`**(사용자가 작업 중 발견한 새 컴파일 에러 기록)도 둔다. 둘 다 플러그인 폴더 바깥이라 업데이트에 안전하다. 번들 `shared/gotcha/`(읽기전용 참조)와 구분 — 새 gotcha는 **사용자 `gotcha/`에만** 쓴다.
 
 ## 현재 스키마 버전
 
