@@ -11,6 +11,8 @@ argument-hint: "[과목/주제]"
 
 > **OS 주의**: 아래 셸 명령 예시는 macOS/Linux(bash) 기준이다. Windows(PowerShell)면 동등 명령을 쓴다 — 폴더 생성 `New-Item -ItemType Directory -Force`, 복사 `Copy-Item`. config 경로는 macOS/Linux `~/.claude/kgulec/`, Windows `%USERPROFILE%\.claude\kgulec\`. **현재 OS를 확인하고 그에 맞는 명령을 선택해 실행한다.**
 
+> **질문 방식**: 사용자에게 **결정·승인·후보 선택**을 요청할 때는 자유 텍스트로 묻지 말고 **`AskUserQuestion`으로 선택지**를 제시한다(Outline 승인, 강의 시간 확인, 대주제 후보 고르기, figs/ref 유무 등). 자유 입력이 본질인 값(과목명·주제 문구 직접 입력 등)만 일반 질문으로 받는다.
+
 ## 0단계: 사용자 설정(config) 로드 + 마이그레이션 (가장 먼저)
 
 1. **`shared/config-schema.md`를 읽어** 스키마와 기본값을 파악한다.
@@ -73,7 +75,13 @@ config가 제공하는 값(`professor`, `department`, `language`, `theme`/`theme
 
 ## 3단계: Outline 제시 및 승인
 
-확정한 이번 강의 시간(기본 3시간) 분량 Outline(섹션 구성·핵심 내용·슬라이드 수 예상)을 제시하고 **사용자 승인** 후 진행.
+확정한 이번 강의 시간(기본 3시간) 분량 Outline(섹션 구성·핵심 내용·슬라이드 수 예상)을 제시한다. Outline 본문은 텍스트로 보여주되, **승인은 자유 텍스트로 묻지 말고 `AskUserQuestion`으로 선택지를 준다.** 예:
+
+- **이대로 진행** (권장)
+- **스코프 조정** — 특정 섹션 추가/제외/비중 변경 (선택 시 무엇을 바꿀지 이어서 질문)
+- **분량·강의 시간 변경** — 슬라이드 수/시간 재설정
+
+(사용자는 'Other'로 자유 입력도 가능.) 선택에 따라 Outline을 수정해 다시 제시하고, **이대로 진행**이 선택돼야 다음 단계로 넘어간다.
 
 ## 4단계: 언어 결정
 
