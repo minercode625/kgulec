@@ -19,7 +19,7 @@ schema_version: 2
 | `config_version` | int | (저장 시 `schema_version` 값) | 이 config가 따르는 스키마 버전 |
 | `professor` | string | `"교수명"` | 강의자 이름 → 템플릿 `\professor` |
 | `department` | string | `"소속"` | 학과/학부/학교 → 템플릿 `\department` (타이틀 institute 영역) |
-| `domain` | string | `""` (미설정) | 주요 도메인/분야 (예: 컴퓨터공학·역사·생물학·경영·법학). **모드 A가 후보 토픽·예시를 이 분야 기준으로 생성**한다. 비어 있으면 분야 중립 예시로 진행 |
+| `domain` | string | `""` (미설정) | 주요 도메인/분야 (예: 컴퓨터공학·역사·생물학·경영·법학). **모드 A가 후보 토픽·웹검색·내용 생성을 이 분야 기준으로** 한다(동음이의 disambiguation, 분야 용어·예시 일관). 비어 있으면 과목명에서 분야 추론 |
 | `language` | enum `ko`\|`en` | `ko` | 기본 슬라이드 언어 (사용자가 명시 지정 시 덮어씀) |
 | `lecture_minutes` | int | `180` | 기본 강의 길이(분, 3시간) → 분량 가이드의 슬라이드 수 기준. **모드 A는 생성 시 이번 강의 시간을 확인하고 특강 등은 override한다**(이번 강의 한정, config는 덮어쓰지 않음) |
 | `theme` | string | `"Ocean"` | 선택한 색 프리셋 이름 (`color-presets.md` 참조) |

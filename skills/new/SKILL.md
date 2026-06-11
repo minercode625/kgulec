@@ -78,6 +78,8 @@ config가 제공하는 값(`professor`, `department`, `domain`, `language`, `the
 
 충분히 인터넷 검색하여 (1단계에서 확정한 이번 강의 시간 기준) 강의 분량에 맞는 내용을 포괄 조사한다. 모든 내용은 사실 기반(확실치 않으면 추측 금지, 검증 후 포함).
 
+**도메인 앵커링(config `domain`)**: 검색어·조사 범위·용어를 **config 분야 기준으로 한정**한다. 동음이의·다의 주제는 도메인으로 명확히 구분해 검색한다(예: "tree" → 컴퓨터공학이면 자료구조, 생물학이면 식물 / "stack" → CS 자료구조 vs 경영 재고). 검색 쿼리에 분야 키워드를 함께 넣어 다른 분야 결과 혼입을 막는다. `domain`이 비어 있으면 과목명·주제로 분야를 추론해 같은 원칙을 적용한다.
+
 **`./ref` 우선(필수)**: 있으면 그 자료(PDF는 Read로 직접)를 **1차 출처**로 삼아 범위·용어·표기·예시를 일관되게. 웹 검색은 보완용. 현재 주제와 직접 관련된 내용만 사용. 큰 PDF는 Agent에 요약 위임. `./ref` 내용도 오래/부정확하면 웹으로 교차검증.
 
 ## 3단계: Outline 제시 및 승인
@@ -109,6 +111,7 @@ config `language`를 기본으로 한다. 사용자가 명시 지정하면 그�
 4. **번들 `shared/gotcha/` + 사용자 `~/.claude/kgulec/gotcha/`(있으면)의 .md를 모두 읽고** 동일 실수를 반복하지 않는다.
 
 핵심 원칙:
+- **도메인 일관성(config `domain`)**: 용어·표기·예시·비유·인용을 그 분야 관례에 맞춘다(예: 수식 위주 vs 사례 위주, 분야별 표준 용어·약어). 다른 분야 예시를 섞지 않는다.
 - **컴파일 가능한 완전한 .tex** 생성.
 - tcolorbox 스타일(conceptbox/examplebox/warningbox/infobox/mathbox/taskcard) + FontAwesome5 아이콘 적극 활용.
 - `\pause` 금지(columns+tcolorbox로). `listings` 금지(`algorithm2e`/`verbatim`).
