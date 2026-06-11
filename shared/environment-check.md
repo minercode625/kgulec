@@ -6,15 +6,17 @@
 
 ## 필요 도구
 
-- **`pdflatex`**(또는 `latexmk`) — `.tex` 컴파일. 필수.
-- **PDF→PNG** 중 하나: `pdftoppm`/`pdftocairo`(poppler) 또는 `magick`(ImageMagick) — 테마 미리보기·오버플로 검사용.
+- **`pdflatex`**(또는 `latexmk`) — `.tex` 컴파일. **필수**(없으면 진행 차단).
+- **PDF→PNG** 중 하나: `pdftoppm`/`pdftocairo`(poppler) 또는 `magick`(ImageMagick) — 테마 미리보기·오버플로 검사용. **필수**(없으면 진행 차단).
+
+두 도구(컴파일 + PDF→PNG) 모두 갖춰져야 `/kgulec:setup`이 다음 단계로 넘어간다.
 
 ## 1. 감지
 
 - macOS/Linux(bash): `command -v pdflatex`, `command -v pdftoppm` 등
 - Windows(PowerShell): `Get-Command pdflatex -ErrorAction SilentlyContinue`
 
-다 있으면 → 통과(다음 단계로). 하나라도 없으면 → 2.
+컴파일 도구(`pdflatex`/`latexmk`)와 PDF→PNG 도구(`pdftoppm`/`pdftocairo`/`magick`)가 **둘 다** 있으면 → 통과(다음 단계로). 하나라도 없으면 → 2.
 
 ## 2. 없으면 — OS·패키지 매니저 확인 후 설치 제안 (동의 게이트)
 
@@ -31,15 +33,22 @@
 
 설치 후 **재감지**하여 성공을 확인한다.
 
-## 3. 매니저가 없거나 동의하지 않으면 — 수동 안내
+## 3. 매니저가 없거나 동의하지 않으면 — 수동 안내 후 중단
 
-공식 다운로드만 안내하고, 설치 전까지 컴파일 단계는 건너뛴다.
+공식 다운로드를 안내하고, **설치가 확인될 때까지 다음 단계로 진행하지 않는다**(아래 게이트 원칙 참고).
 
 - macOS: MacTeX — https://tug.org/mactex/
 - Windows: MiKTeX — https://miktex.org/ (또는 TeX Live)
 - Linux/공통: TeX Live — https://tug.org/texlive/
 - poppler — https://poppler.freedesktop.org · ImageMagick — https://imagemagick.org
 
-## 비차단 원칙
+설치를 마쳤으면 사용자가 다시 `/kgulec:setup`을 실행하도록 안내한다(재감지 후 통과하면 계속).
 
-TeX/도구가 끝내 없어도 **작업을 막지 않는다.** `.tex`(및 설정)는 정상 생성하고, "설치 후 `pdflatex main.tex`로 컴파일하세요"라고 안내한 뒤 진행한다. 컴파일·미리보기·오버플로 검사만 건너뛴다.
+## 게이트 원칙 (`/kgulec:setup` — 차단)
+
+`/kgulec:setup`에서는 컴파일 도구와 PDF→PNG 도구가 **둘 다 설치 확인**되어야 다음 단계(테마 선택·config 저장)로 넘어간다.
+
+- 하나라도 없고 설치(동의 설치 또는 수동 설치)가 끝내 안 되면 → **setup을 여기서 중단**한다. 테마 선택·미리보기·config 저장을 진행하지 않는다.
+- 재감지로 둘 다 확인되면 → 통과하여 다음 단계로.
+
+> **모드 A/B/C(생성·수정·실습)는 다르다.** 그쪽은 비차단 — 도구가 없어도 `.tex`는 생성하고 "설치 후 `pdflatex main.tex`로 컴파일하세요"라고 안내한다. 컴파일·미리보기·오버플로 검사만 건너뛴다. 하드 게이트는 **setup 전용**이다.
