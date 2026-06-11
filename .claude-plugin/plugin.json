@@ -2,7 +2,7 @@
   "name": "kgulec",
   "displayName": "KGU Beamer Lecture",
   "description": "경기대 대학 강의용 LaTeX Beamer 슬라이드 생성·수정·실습코드·테마 셋업 플러그인",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "author": {
     "name": "서왕덕",
     "email": "seowangduk@gmail.com"
@@ -10,5 +10,13 @@
   "license": "MIT",
   "homepage": "https://github.com/minercode625/kgulec",
   "repository": "https://github.com/minercode625/kgulec",
-  "keywords": ["beamer", "latex", "lecture", "slides", "kyonggi", "강의자료", "tcolorbox"]
+  "keywords": [
+    "beamer",
+    "latex",
+    "lecture",
+    "slides",
+    "kyonggi",
+    "강의자료",
+    "tcolorbox"
+  ]
 }

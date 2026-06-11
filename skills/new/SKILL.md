@@ -9,6 +9,8 @@ argument-hint: "[과목/주제]"
 공유 자료 위치: **`${CLAUDE_PLUGIN_ROOT}/shared/`** (이 스킬 기준 `../../shared/`). 아래에서 `shared/`로 표기.
 .tex 작성 규칙은 **`shared/slide-authoring-rules.md`**(디자인·분량·오버플로우·주의)를 반드시 함께 읽는다.
 
+> **OS 주의**: 아래 셸 명령 예시는 macOS/Linux(bash) 기준이다. Windows(PowerShell)면 동등 명령을 쓴다 — 폴더 생성 `New-Item -ItemType Directory -Force`, 복사 `Copy-Item`. config 경로는 macOS/Linux `~/.claude/kgulec/`, Windows `%USERPROFILE%\.claude\kgulec\`. **현재 OS를 확인하고 그에 맞는 명령을 선택해 실행한다.**
+
 ## 0단계: 사용자 설정(config) 로드 + 마이그레이션 (가장 먼저)
 
 1. **`shared/config-schema.md`를 읽어** 스키마와 기본값을 파악한다.
@@ -28,7 +30,7 @@ config가 제공하는 값(`professor`, `department`, `language`, `theme`/`theme
 ### 1-1. 작업 폴더 준비 + 자료 폴더 자동 생성
 
 1. **출력(컴파일) 디렉토리 결정**: 기본은 현재 작업 디렉토리. 주차별 폴더를 강제하지 않는다.
-2. **자료 폴더 자동 생성**: 출력 디렉토리에 `./figs`, `./ref`가 없으면 만든다(`mkdir -p figs ref`).
+2. **자료 폴더 자동 생성**: 출력 디렉토리에 `figs`, `ref`가 없으면 만든다(macOS/Linux: `mkdir -p figs ref` · Windows: `New-Item -ItemType Directory -Force figs, ref`).
 3. **사용자에게 먼저 물어본다**: "넣을 **그림**이 있으면 `./figs/`에, **참고자료**(PDF·슬라이드·강의노트·교재 발췌)가 있으면 `./ref/`에 넣어주세요. 있으신가요?"
    - 있으면 사용자가 파일을 넣을 때까지 기다린 뒤 스캔. 없으면 웹 검색 위주로 진행.
 
@@ -88,7 +90,7 @@ config `language`를 기본으로 한다. 사용자가 명시 지정하면 그�
    - `\professor` ← config `professor`, `\department` ← config `department`
    - `\course`/`\week`/`\topic`/`\naljja` ← 1단계 입력
    - **PRIMARY THEME 4색** ← config `theme_colors`(base→`mqblue`, deep→`mqdeepblue`, mid→`mqgrayblue`, light→`mqlightblue`)로 `% === PRIMARY THEME ===`~`% === END PRIMARY THEME ===` 4줄 치환. 의미색·`\colorlet`은 그대로.
-3. **로고 배치(필수)**: `\titlegraphic`은 `main.tex`와 같은 폴더의 `kyonggi_logo.png`를 찾는다. `${CLAUDE_PLUGIN_ROOT}/assets/kyonggi_logo.png`를 출력 디렉토리로 복사한다(`cp "${CLAUDE_PLUGIN_ROOT}/assets/kyonggi_logo.png" ./`). 없어도 `\IfFileExists`라 컴파일 안 깨짐.
+3. **로고 배치(필수)**: `\titlegraphic`은 `main.tex`와 같은 폴더의 `kyonggi_logo.png`를 찾는다. `${CLAUDE_PLUGIN_ROOT}/assets/kyonggi_logo.png`를 출력 디렉토리로 복사한다(macOS/Linux: `cp "${CLAUDE_PLUGIN_ROOT}/assets/kyonggi_logo.png" ./` · Windows: `Copy-Item "$env:CLAUDE_PLUGIN_ROOT\assets\kyonggi_logo.png" .`). 없어도 `\IfFileExists`라 컴파일 안 깨짐.
 4. **`shared/gotcha/`의 .md를 모두 읽고** 동일 실수를 반복하지 않는다.
 
 핵심 원칙:
@@ -107,7 +109,7 @@ config `language`를 기본으로 한다. 사용자가 명시 지정하면 그�
 
 컴파일(`pdflatex`/`latexmk`) 후 PDF에 대해: ① 내용 정확성 ② 레이아웃 오버플로 ③ figure 렌더링. 문제 슬라이드는 자동 수정·재컴파일.
 
-**오버플로 검사는 Agent에 위임**: 메인에서 .tex 수정·컴파일 완료 → Agent 호출(PDF 경로 + 페이지 범위 + `pdftoppm`으로 PNG 변환 후 Read 확인 + 오버플로 페이지·증상만 보고) → 결과 받아 해당 프레임 수정·재컴파일. (메인 컨텍스트에 이미지 안 쌓이게.)
+**오버플로 검사는 Agent에 위임**: 메인에서 .tex 수정·컴파일 완료 → Agent 호출(PDF 경로 + 페이지 범위 + PDF를 PNG로 변환[`pdftoppm`/`pdftocairo`/`magick` 중 가능한 것] 후 Read 확인 + 오버플로 페이지·증상만 보고) → 결과 받아 해당 프레임 수정·재컴파일. (메인 컨텍스트에 이미지 안 쌓이게.)
 
 ## 8단계: Gotcha 기록 (필수 — 건너뛰지 않음)
 

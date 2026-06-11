@@ -61,13 +61,15 @@ kgulec/
 
 ## 요구사항 (LaTeX)
 
-컴파일에는 TeX 배포판(권장 **TeX Live full**)과 다음 패키지가 필요하다(`shared/beamer-templates.md` 기준):
+컴파일에는 TeX 배포판(macOS/Linux **TeX Live full** 권장, Windows는 **MiKTeX** 또는 TeX Live)과 다음 패키지가 필요하다(`shared/beamer-templates.md` 기준):
 
 - `beamer`(Madrid 테마), `tcolorbox`(`most`), `kotex`(한글), `fontawesome5`, `algorithm2e`
 - `amsmath`, `tikz`, `graphicx`, `booktabs`, `array`, `multicol`, `multirow`
 - `xcolor`(`svgnames,table`), `csquotes`, `bbm`, `pifont`, `ragged2e`, `fp`, `hyperref`, `verbatim`
 
-도구: 컴파일 `pdflatex`/`latexmk`, 오버플로우 자동 검사 `pdftoppm`(poppler).
+도구: 컴파일 `pdflatex`/`latexmk`, PDF→PNG 변환(테마 미리보기·오버플로 검사용) `pdftoppm`/`pdftocairo`(poppler) 또는 `magick`(ImageMagick) 중 하나.
+
+**OS 무관 동작**: 폴더 생성·복사 등 내부 명령은 macOS/Linux(bash)와 Windows(PowerShell) 모두 지원한다. 스킬이 실행 OS를 확인해 맞는 명령을 쓴다. 사용자 설정 경로: macOS/Linux `~/.claude/kgulec/`, Windows `%USERPROFILE%\.claude\kgulec\`.
 
 ## 경기대 로고
 

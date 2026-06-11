@@ -2,7 +2,7 @@
 
 `/kgulec:setup` 가 쓰고 `/kgulec:new`(모드 A)가 읽는 **사용자 상수 설정**의 단일 정의다.
 
-- 설정 파일 경로: **`~/.claude/kgulec/config.md`** (플러그인 폴더 바깥 → 플러그인 업데이트가 덮어쓰지 않음)
+- 설정 파일 경로: **사용자 홈의 `.claude/kgulec/config.md`** (플러그인 폴더 바깥 → 플러그인 업데이트가 덮어쓰지 않음). macOS/Linux `~/.claude/kgulec/config.md`, Windows `%USERPROFILE%\.claude\kgulec\config.md`.
 - 이 스키마 파일은 버전관리 대상(읽기전용). config 파일은 비버전(사용자 소유).
 
 ## 현재 스키마 버전

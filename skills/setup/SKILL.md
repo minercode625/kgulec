@@ -11,7 +11,9 @@ argument-hint: "[theme|identity|all]"
 강의자료마다 안 바뀌는 **공통 설정**을 모아 사용자 config에 저장한다. **정본 템플릿(`shared/`)은 절대 수정하지 않는다.**
 
 공유 자료 위치: **`${CLAUDE_PLUGIN_ROOT}/shared/`** (이 스킬 기준 `../../shared/`).
-설정 저장 위치: **`~/.claude/kgulec/config.md`** (플러그인 폴더 바깥 → 업데이트가 덮어쓰지 않음).
+설정 저장 위치: **사용자 홈의 `.claude/kgulec/config.md`** (플러그인 폴더 바깥 → 업데이트가 덮어쓰지 않음). macOS/Linux는 `~/.claude/kgulec/`, Windows는 `%USERPROFILE%\.claude\kgulec\`.
+
+> **OS 주의**: 아래 셸 명령 예시는 macOS/Linux(bash) 기준이다. Windows(PowerShell)면 동등 명령을 쓴다 — 폴더 생성 `New-Item -ItemType Directory -Force`, 복사 `Copy-Item`, 삭제 `Remove-Item`. **현재 OS를 확인하고 그에 맞는 명령을 선택해 실행한다.**
 
 ## 1단계: 스키마·현재 설정 로드
 
@@ -39,18 +41,28 @@ config에 이미 값이 있으면 그 값을 기본으로 제시하고 바꿀지
 | 기본 언어 | `language` | `ko` 또는 `en` |
 | 기본 강의 시간(분) | `lecture_minutes` | 분량 가이드 기준(예: 50/75/150/180=3시간 기본). 이 값은 *기본값*이며, 모드 A가 강의마다 확인해 특강 등은 override한다 |
 
-## 4단계: config 저장
+## 4단계: 샘플 미리보기 (필수 — 사용자 확인)
 
-1. `mkdir -p ~/.claude/kgulec` (없으면 생성).
+config를 저장하기 **전에**, 확정된 테마로 **샘플 슬라이드 PNG를 만들어 사용자의 작업(프로젝트) 폴더에 저장하고 직접 확인받는다.**
+
+1. 최소 샘플 .tex를 만든다: `shared/beamer-templates.md` 프리앰블 + 타이틀 1장 + 대표 박스(conceptbox/examplebox/warningbox/mathbox)를 보여주는 1~2장. **PRIMARY THEME 4색을 선택한 `theme_colors`로 치환**하고, `${CLAUDE_PLUGIN_ROOT}/assets/kyonggi_logo.png`를 .tex 옆에 복사한다.
+2. 컴파일 → PDF → **PNG 변환**하여 **현재 작업 폴더**에 `kgulec-theme-sample.png`로 저장한다.
+   - 컴파일: `pdflatex`(또는 `latexmk`).
+   - PDF→PNG: 사용 가능한 도구로 변환(`pdftoppm -png -r 150`, 없으면 `pdftocairo -png` 또는 `magick`). **변환 도구가 없으면** `kgulec-theme-sample.pdf`를 대신 남기고 그 사실을 알린다.
+   - 컨텍스트 보호: 컴파일/변환 과정은 **Agent에 위임** 가능(결과 파일 경로만 보고받음).
+3. 사용자에게 알린다: "작업 폴더에 `kgulec-theme-sample.png`를 만들었습니다. 열어서 색이 마음에 드는지 확인해주세요." → **확인받는다.**
+   - 마음에 안 들면 → **2단계(테마 선택)로 돌아가** 다시 고르고 샘플을 갱신한다(확정될 때까지 반복).
+   - 확정되면 5단계로. 샘플 파일은 임시 산출물이니 지워도 된다고 안내한다.
+4. **폴백**: TeX(`pdflatex`)나 변환 도구가 설치돼 있지 않으면 미리보기를 건너뛰고 그 사실을 사용자에게 알린 뒤 5단계로 진행한다(설정 자체는 막지 않는다).
+
+## 5단계: config 저장
+
+1. 홈의 `.claude/kgulec/` 폴더가 없으면 생성한다(macOS/Linux: `mkdir -p ~/.claude/kgulec` · Windows: `New-Item -ItemType Directory -Force $HOME\.claude\kgulec`).
 2. 기존 `config.md`가 있으면 `config.md.bak`으로 백업.
-3. `config-schema.md`의 형식대로 `~/.claude/kgulec/config.md`를 쓴다:
+3. `config-schema.md`의 형식대로 `config.md`를 쓴다:
    - `config_version`은 현재 `schema_version` 값.
    - 2~3단계에서 정한 값 + 사용자가 안 바꾼 기존/기본값을 모두 포함(누락 키 없게).
    - 사용자가 임의로 넣었던 미지의 키는 보존.
-
-## 5단계: (선택) 미리보기
-
-원하면 적용된 테마로 1슬라이드 샘플을 컴파일해 확인한다. 컨텍스트 보호를 위해 **Agent에 위임**한다(임시 폴더에 `shared/beamer-templates.md` 기반 최소 .tex 작성 → PRIMARY THEME 4색을 선택값으로 치환 → `${CLAUDE_PLUGIN_ROOT}/assets/kyonggi_logo.png` 복사 → `pdflatex` → `pdftoppm`로 PNG → Read로 확인 → 결과만 보고). 문제 없으면 정리.
 
 ## 6단계: 완료 보고
 
