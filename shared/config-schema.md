@@ -9,7 +9,7 @@
 ## 현재 스키마 버전
 
 ```
-schema_version: 1
+schema_version: 2
 ```
 
 ## 필드 정의
@@ -19,6 +19,7 @@ schema_version: 1
 | `config_version` | int | (저장 시 `schema_version` 값) | 이 config가 따르는 스키마 버전 |
 | `professor` | string | `"교수명"` | 강의자 이름 → 템플릿 `\professor` |
 | `department` | string | `"소속"` | 학과/학부/학교 → 템플릿 `\department` (타이틀 institute 영역) |
+| `domain` | string | `""` (미설정) | 주요 도메인/분야 (예: 컴퓨터공학·역사·생물학·경영·법학). **모드 A가 후보 토픽·예시를 이 분야 기준으로 생성**한다. 비어 있으면 분야 중립 예시로 진행 |
 | `language` | enum `ko`\|`en` | `ko` | 기본 슬라이드 언어 (사용자가 명시 지정 시 덮어씀) |
 | `lecture_minutes` | int | `180` | 기본 강의 길이(분, 3시간) → 분량 가이드의 슬라이드 수 기준. **모드 A는 생성 시 이번 강의 시간을 확인하고 특강 등은 override한다**(이번 강의 한정, config는 덮어쓰지 않음) |
 | `theme` | string | `"Ocean"` | 선택한 색 프리셋 이름 (`color-presets.md` 참조) |
@@ -36,9 +37,10 @@ theme_colors:
 ## config.md 예시
 
 ```yaml
-config_version: 1
+config_version: 2
 professor: 홍길동
 department: 경기대학교 컴퓨터공학부
+domain: 컴퓨터공학
 language: ko
 lecture_minutes: 180
 theme: Ocean
@@ -66,6 +68,10 @@ config는 git 비추적이므로 머지 충돌은 없다. 코드 업데이트로
    - 기본값이 부적절한 정체성 값(예: 새 식별 정보)이면 → **그 필드만** 사용자에게 질문(기존 값은 묻지 않음).
 4. 사용자가 임의로 넣은 미지의 키는 보존한다(비파괴).
 5. `config_version`을 `schema_version`으로 올려 다시 저장.
+
+### 버전 이력
+
+- **v1 → v2**: `domain`(주요 도메인/분야) 추가. 안전한 기본값이 없는 식별성 값이므로 **마이그레이션 시 이 필드만 사용자에게 질문**한다(기존 값은 묻지 않음). 사용자가 건너뛰면 `""`(미설정)로 두고 모드 A는 분야 중립 예시로 진행한다.
 
 ## 스키마 변경 규칙 (가산적)
 

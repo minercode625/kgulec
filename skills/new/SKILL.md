@@ -21,7 +21,7 @@ argument-hint: "[과목/주제]"
    - 있으면: **defaults ⊕ config 병합**(누락 키는 기본값). 절대 크래시 금지.
 3. **탑업 마이그레이션**: `config.config_version < schema_version`이면 `shared/config-schema.md`의 "마이그레이션 규칙"대로 처리(백업 → 새 필드 채움/필요한 것만 질문 → 버전 범프 후 저장).
 
-config가 제공하는 값(`professor`, `department`, `language`, `theme`/`theme_colors`)은 **1단계에서 재질문하지 않는다.**
+config가 제공하는 값(`professor`, `department`, `domain`, `language`, `theme`/`theme_colors`)은 **1단계에서 재질문하지 않는다.** 단 `domain`은 후보 토픽·예시 생성의 기준으로 **활용**한다(아래 1-3).
 
 단 **강의 시간(`lecture_minutes`)은 예외**다. config 값은 *기본값*일 뿐, 이번 강의에는 다를 수 있다(예: 평소 3시간이지만 특강은 1시간). 따라서 1단계에서 **이번 강의 시간을 확인**한다(아래 1-3 참조).
 
@@ -60,8 +60,11 @@ config가 제공하는 값(`professor`, `department`, `language`, `theme`/`theme
 | **강의 시간** | — | **이번 강의 길이를 항상 확인한다.** config `lecture_minutes`를 기본값으로 제시하고 "이번 강의도 N분인가요? (특강 등 다르면 알려주세요)"로 확인 → 다르면 그 값으로 override(특강 1시간 등). config에 없으면 기본 3시간(180분)을 제안하며 묻는다. 확정값은 슬라이드 수 기준(`shared/slide-authoring-rules.md` 분량 가이드)이며, config는 덮어쓰지 않는다(이번 강의 한정). |
 | (교수명·소속·언어) | — | **config에 있으면 질문 생략.** 없을 때만 물어보고, 자주 쓰면 /kgulec:setup 권유 |
 
-**대주제·세부 주제가 없으면** 임의로 지어내지 말고 후보를 예시로 제시해 고르게 한다.
-예: "딥러닝개론 N주차라면 — ① CNN 기초 ② RNN/LSTM ③ Attention/Transformer 중 무엇으로 할까요?"
+**대주제·세부 주제가 없으면** 임의로 지어내지 말고 후보를 예시로 제시해 고르게 한다. 후보는 **config `domain`(주요 분야) + 과목명 기준**으로 그 분야에 맞게 만든다.
+- 예(domain=컴퓨터공학, 딥러닝개론): "① CNN 기초 ② RNN/LSTM ③ Attention/Transformer 중 무엇으로 할까요?"
+- 예(domain=역사, 한국근현대사): "① 갑오개혁 ② 3·1운동 ③ 산업화와 도시화 중 무엇으로 할까요?"
+- 예(domain=생물학, 세포생물학): "① 세포막 수송 ② 세포호흡 ③ 세포분열 중 무엇으로 할까요?"
+- `domain`이 비어 있으면(미설정) 분야를 단정하지 말고 과목명에서 추론하거나, 어떤 분야 강의인지 먼저 확인한다.
 
 ### 1-4. 함께 오는 입력 형태
 
