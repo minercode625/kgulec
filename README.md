@@ -32,8 +32,17 @@ A/B/C는 "강의자료 만들어줘" 같은 자연어로도 자동 트리거된�
 
 ## 설치 (마켓플레이스)
 
+> 두 명령을 한 번에 붙여넣으면 일부 환경에서 에러가 난다. **Step 1 실행 후, Step 2를 따로** 실행한다.
+
+**Step 1 — 마켓플레이스 추가**
+
 ```
 /plugin marketplace add minercode625/kgulec
+```
+
+**Step 2 — 플러그인 설치**
+
+```
 /plugin install kgulec@kgulec-marketplace
 ```
 
@@ -79,7 +88,7 @@ kgulec/
 
 ### Claude Code CLI (필수)
 
-이 플러그인은 **Claude Code 플러그인**이라 [Claude Code CLI](https://docs.claude.com/en/docs/claude-code/overview)가 먼저 설치돼 있어야 한다. 설치·로그인 후 마켓플레이스로 플러그인을 추가한다(아래 [설치](#설치-마켓플레이스) 참고).
+이 플러그인은 **Claude Code 플러그인**이라 [Claude Code CLI](https://code.claude.com/docs/ko/quickstart)가 먼저 설치돼 있어야 한다. 설치·로그인 후 마켓플레이스로 플러그인을 추가한다(아래 [설치](#설치-마켓플레이스) 참고).
 
 ### LaTeX
 
