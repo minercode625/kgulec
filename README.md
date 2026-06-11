@@ -52,6 +52,7 @@ kgulec/
     slide-authoring-rules.md    디자인·분량·오버플로우·주의 (A·B 공통)
     color-presets.md            색 프리셋 카탈로그
     config-schema.md            사용자 설정 스키마 + 마이그레이션 규칙
+    environment-check.md        TeX·PDF→PNG 도구 점검 + 설치 안내(동의 게이트)
     gotcha/                     반복 실수 방지 기록
   assets/
     kyonggi_logo.png            경기대 로고 (상표, 사용자 배치)
@@ -68,6 +69,8 @@ kgulec/
 - `xcolor`(`svgnames,table`), `csquotes`, `bbm`, `pifont`, `ragged2e`, `fp`, `hyperref`, `verbatim`
 
 도구: 컴파일 `pdflatex`/`latexmk`, PDF→PNG 변환(테마 미리보기·오버플로 검사용) `pdftoppm`/`pdftocairo`(poppler) 또는 `magick`(ImageMagick) 중 하나.
+
+이 도구가 없으면 `/kgulec:setup`·`/kgulec:new`가 OS·패키지 매니저에 맞는 설치 명령을 **동의받아** 안내·실행한다(무음 설치 안 함, `shared/environment-check.md`). 동의 안 하면 수동 링크만 안내하고 `.tex`는 생성한다.
 
 **OS 무관 동작**: 폴더 생성·복사 등 내부 명령은 macOS/Linux(bash)와 Windows(PowerShell) 모두 지원한다. 스킬이 실행 OS를 확인해 맞는 명령을 쓴다. 사용자 설정 경로: macOS/Linux `~/.claude/kgulec/`, Windows `%USERPROFILE%\.claude\kgulec\`.
 

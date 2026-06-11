@@ -15,6 +15,10 @@ argument-hint: "[theme|identity|all]"
 
 > **OS 주의**: 아래 셸 명령 예시는 macOS/Linux(bash) 기준이다. Windows(PowerShell)면 동등 명령을 쓴다 — 폴더 생성 `New-Item -ItemType Directory -Force`, 복사 `Copy-Item`, 삭제 `Remove-Item`. **현재 OS를 확인하고 그에 맞는 명령을 선택해 실행한다.**
 
+## 0단계: 환경 점검 (의존성)
+
+**`shared/environment-check.md`를 읽어** `pdflatex`와 PDF→PNG 도구(`pdftoppm`/`pdftocairo`/`magick`) 설치 여부를 확인한다. 없으면 그 문서의 절차대로 **OS·패키지 매니저에 맞는 설치 명령을 동의받아** 실행한다(무음 설치 금지). 동의 안 하거나 매니저가 없으면 수동 설치 링크만 안내하고 진행한다. 이 도구들은 4단계 샘플 미리보기에 필요하며, 끝내 없으면 미리보기만 건너뛴다(설정 저장은 막지 않음).
+
 ## 1단계: 스키마·현재 설정 로드
 
 1. **`shared/config-schema.md`를 읽어** 필드·기본값·스키마 버전을 파악한다.

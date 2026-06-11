@@ -107,6 +107,8 @@ config `language`를 기본으로 한다. 사용자가 명시 지정하면 그�
 
 ## 7단계: 품질 검사 (자동)
 
+**컴파일 전 환경 점검**: `pdflatex`·PDF→PNG 도구가 있는지 확인한다(`shared/environment-check.md`). 없으면 그 문서대로 동의받아 설치 제안, 끝내 없으면 `.tex`까지만 생성하고 "설치 후 `pdflatex main.tex`로 컴파일하세요" 안내 후 종료(작업은 막지 않음).
+
 컴파일(`pdflatex`/`latexmk`) 후 PDF에 대해: ① 내용 정확성 ② 레이아웃 오버플로 ③ figure 렌더링. 문제 슬라이드는 자동 수정·재컴파일.
 
 **오버플로 검사는 Agent에 위임**: 메인에서 .tex 수정·컴파일 완료 → Agent 호출(PDF 경로 + 페이지 범위 + PDF를 PNG로 변환[`pdftoppm`/`pdftocairo`/`magick` 중 가능한 것] 후 Read 확인 + 오버플로 페이지·증상만 보고) → 결과 받아 해당 프레임 수정·재컴파일. (메인 컨텍스트에 이미지 안 쌓이게.)
