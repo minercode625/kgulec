@@ -37,15 +37,16 @@
 
 winget으로 MiKTeX를 깔면 "설치 성공"이라 떠도 **핵심 런타임 DLL(`MiKTeX###-core.dll` 등)이 누락된 채** 파일만 일부 풀려, `pdflatex` 실행 시 `0xC0000135 (DLL not found)`로 죽는 사례가 있다(`winget list`·레지스트리에도 미등록 = 실제 실패). 이때 검증된 복구 순서:
 
-1. **불완전 설치 제거 + 공식 installer 내려받기** (PowerShell):
+1. **불완전 설치 제거 + 공식 installer 내려받기** (PowerShell). installer는 `%TEMP%`가 아니라 **작업 폴더의 `./.kgulec-tmp/`**에 받는다 — `%TEMP%`에서 exe를 받고 실행하는 패턴은 백신이 멀웨어로 오탐하는 단골이다(`shared/temp-files-policy.md`):
    ```powershell
    Remove-Item "$env:LOCALAPPDATA\Programs\MiKTeX" -Recurse -Force -ErrorAction SilentlyContinue
-   Invoke-WebRequest -Uri "https://miktex.org/download/win/basic-miktex-x64.exe" -OutFile "$env:TEMP\basic-miktex-x64.exe"
+   New-Item -ItemType Directory -Force .kgulec-tmp
+   Invoke-WebRequest -Uri "https://miktex.org/download/win/basic-miktex-x64.exe" -OutFile ".kgulec-tmp\basic-miktex-x64.exe"
    ```
    (정확한 최신 installer URL은 https://miktex.org/download 에서 확인 — 버전 번호가 파일명에 들어간다.)
 2. **무인 설치는 플래그를 `--unattended` 하나만** 쓴다:
    ```powershell
-   Start-Process "$env:TEMP\basic-miktex-x64.exe" -ArgumentList "--unattended" -Wait
+   Start-Process ".kgulec-tmp\basic-miktex-x64.exe" -ArgumentList "--unattended" -Wait
    ```
    - ⚠️ `--auto-install=yes` / `--shared=no` 등을 **함께 주면 비대화형 환경에서 거부되어 exit 1**(아무것도 안 깔림)이 난다. 단순화가 핵심.
 3. **후처리** — 래퍼 링크 생성 + 누락 패키지 자동설치 활성화:
@@ -55,7 +56,7 @@ winget으로 MiKTeX를 깔면 "설치 성공"이라 떠도 **핵심 런타임 DL
    initexmf.exe --set-config-value "[MPM]AutoInstall=1"
    ```
    (MiKTeX `bin`은 보통 사용자 PATH에 자동 등록된다. 안 되면 새 셸을 열거나 PATH를 갱신한다.)
-4. **검증**: `pdflatex --version` → `MiKTeX-pdfTeX ...` 출력되면 성공.
+4. **검증**: `pdflatex --version` → `MiKTeX-pdfTeX ...` 출력되면 성공. 성공 확인 후 내려받은 installer 정리: `Remove-Item -Recurse -Force .kgulec-tmp`.
 
 > 요약: winget MiKTeX는 core DLL 누락으로 잘 실패한다 → 공식 installer를 `--unattended` **단독** 플래그로 돌리면 성공. poppler는 winget으로 한 번에 정상 설치된다.
 

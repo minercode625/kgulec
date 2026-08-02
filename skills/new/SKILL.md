@@ -129,12 +129,16 @@ config `language`를 기본으로 한다. 사용자가 명시 지정하면 그�
 
 컴파일(`pdflatex`/`latexmk`) 후 PDF에 대해: ① 내용 정확성 ② 레이아웃 오버플로 ③ figure 렌더링. 문제 슬라이드는 자동 수정·재컴파일.
 
-**오버플로 검사는 Agent에 위임**: 메인에서 .tex 수정·컴파일 완료 → Agent 호출(PDF 경로 + 페이지 범위 + PDF를 PNG로 변환[`pdftoppm`/`pdftocairo`/`magick` 중 가능한 것] 후 Read 확인 + 오버플로 페이지·증상만 보고) → 결과 받아 해당 프레임 수정·재컴파일. (메인 컨텍스트에 이미지 안 쌓이게.)
+**임시 파일 정책(필수)**: PNG 렌더 등 검사용 임시 파일은 `shared/temp-files-policy.md`대로 **시스템 temp(/tmp·%TEMP%) 금지, 작업 폴더의 `./.kgulec-tmp/`에 생성**하고(백신 오탐 방지), 검사가 끝나 문제 없으면 **폴더째 삭제**한다.
+
+**오버플로 검사는 Agent에 위임**: 메인에서 .tex 수정·컴파일 완료 → Agent 호출(PDF 경로 + 페이지 범위 + PDF를 PNG로 변환[`pdftoppm`/`pdftocairo`/`magick` 중 가능한 것] 후 Read 확인 + 오버플로 페이지·증상만 보고, **PNG 출력 경로는 `./.kgulec-tmp/`로 명시 지시**) → 결과 받아 해당 프레임 수정·재컴파일. (메인 컨텍스트에 이미지 안 쌓이게.)
 
 **섹션 표지(divider) 재확인 (필수 — 자주 엇나감)**: `\sectiondividerframe`은 `[plain]` + 인라인 `remember picture,overlay`로 배경을 그려 **특히 뒤쪽 섹션 표지에서 배경이 어긋난다**(상단 회색 머리띠, 파란 밴드가 위로 밀림, 하단 흰색 잘림). 마지막에 **각 섹션의 첫 표지 페이지를 하나도 빠짐없이 따로** PNG로 확인한다.
 - 점검 항목: ① 전체 배경(`mqdeepblue`)이 페이지 끝까지 채워짐 ② 파란 밴드(`mqlightblue`) 위치 정상 ③ 상단 회색 머리띠 없음 ④ 하단 흰 여백 잘림 없음.
 - overlay는 `current page` 앵커가 cross-ref라 **최소 2~3회 컴파일**해야 위치가 수렴한다. 한 번만 컴파일하면 엇나간 채로 남으니, 표지 확인 전 반드시 다회 컴파일.
 - 다회 컴파일에도 일부 표지가 계속 어긋나면 → `shared/gotcha/tikz-pitfalls.md`의 「overlay 배경」 해법대로 그 표지의 overlay를 `\setbeamertemplate{background canvas}`로 옮긴다.
+
+검사가 모두 통과하면 `./.kgulec-tmp/`를 삭제한다(macOS/Linux `rm -rf ./.kgulec-tmp` · Windows `Remove-Item -Recurse -Force .kgulec-tmp`).
 
 ## 8단계: Gotcha 기록 (필수 — 건너뛰지 않음)
 

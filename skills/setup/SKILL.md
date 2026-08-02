@@ -56,15 +56,16 @@ config에 이미 값이 있으면 그 값을 기본으로 제시하고 바꿀지
 
 config를 저장하기 **전에**, 확정된 테마로 **샘플 슬라이드 PNG를 만들어 사용자의 작업(프로젝트) 폴더에 저장하고 직접 확인받는다.**
 
-1. 최소 샘플 .tex를 만든다: `shared/beamer-templates.md` 프리앰블 + 타이틀 1장 + 대표 박스(conceptbox/examplebox/warningbox/mathbox)를 보여주는 1~2장. **PRIMARY THEME 4색을 선택한 `theme_colors`로 치환**하고, `${CLAUDE_PLUGIN_ROOT}/assets/kyonggi_logo.png`를 .tex 옆에 복사한다.
-2. 컴파일 → PDF → **PNG 변환**하여 **현재 작업 폴더**에 `kgulec-theme-sample.png`로 저장한다.
-   - 컴파일: `pdflatex`(또는 `latexmk`).
-   - PDF→PNG: 사용 가능한 도구로 변환(`pdftoppm -png -r 150`, 없으면 `pdftocairo -png` 또는 `magick`). **변환 도구가 없으면** `kgulec-theme-sample.pdf`를 대신 남기고 그 사실을 알린다.
-   - 컨텍스트 보호: 컴파일/변환 과정은 **Agent에 위임** 가능(결과 파일 경로만 보고받음).
-3. 사용자에게 알린다: "작업 폴더에 `kgulec-theme-sample.png`를 만들었습니다. 열어서 색이 마음에 드는지 확인해주세요." → **확인받는다.**
+1. **임시 폴더에서 작업한다** — `shared/temp-files-policy.md`대로 작업 폴더에 `./.kgulec-tmp/`를 만들고, 샘플 `.tex`·로고 복사·컴파일 중간물(`.aux`/`.log`/`.pdf`)을 전부 그 안에서 처리한다(시스템 temp 금지 — 백신 오탐 방지).
+2. 최소 샘플 .tex를 만든다: `shared/beamer-templates.md` 프리앰블 + 타이틀 1장 + 대표 박스(conceptbox/examplebox/warningbox/mathbox)를 보여주는 1~2장. **PRIMARY THEME 4색을 선택한 `theme_colors`로 치환**하고, `${CLAUDE_PLUGIN_ROOT}/assets/kyonggi_logo.png`를 .tex 옆(`./.kgulec-tmp/`)에 복사한다.
+3. 컴파일 → PDF → **PNG 변환** 후 결과만 **현재 작업 폴더**에 `kgulec-theme-sample.png`로 복사한다.
+   - 컴파일: `pdflatex`(또는 `latexmk`) — `./.kgulec-tmp/` 안에서.
+   - PDF→PNG: 사용 가능한 도구로 변환(`pdftoppm -png -r 150`, 없으면 `pdftocairo -png` 또는 `magick`). **변환 도구가 없으면** `kgulec-theme-sample.pdf`를 대신 작업 폴더로 복사하고 그 사실을 알린다.
+   - 컨텍스트 보호: 컴파일/변환 과정은 **Agent에 위임** 가능(결과 파일 경로만 보고받음, **작업 위치 `./.kgulec-tmp/` 명시 지시**).
+4. 사용자에게 알린다: "작업 폴더에 `kgulec-theme-sample.png`를 만들었습니다. 열어서 색이 마음에 드는지 확인해주세요." → **확인받는다.**
    - 마음에 안 들면 → **2단계(테마 선택)로 돌아가** 다시 고르고 샘플을 갱신한다(확정될 때까지 반복).
-   - 확정되면 5단계로. 샘플 파일은 임시 산출물이니 지워도 된다고 안내한다.
-4. 0단계 게이트를 통과했으므로 컴파일·변환 도구는 갖춰져 있다. 만약 이 단계에서 컴파일/변환이 실패하면(도구 손상·패키지 누락 등) 미리보기를 강행하지 말고 원인을 사용자에게 알린 뒤, 필요하면 0단계 점검으로 되돌아간다.
+   - 확정되면 **`./.kgulec-tmp/`를 폴더째 삭제**하고(macOS/Linux `rm -rf ./.kgulec-tmp` · Windows `Remove-Item -Recurse -Force .kgulec-tmp`) 5단계로. 작업 폴더의 샘플 PNG는 임시 산출물이니 지워도 된다고 안내한다.
+5. 0단계 게이트를 통과했으므로 컴파일·변환 도구는 갖춰져 있다. 만약 이 단계에서 컴파일/변환이 실패하면(도구 손상·패키지 누락 등) 미리보기를 강행하지 말고 원인을 사용자에게 알린 뒤, 필요하면 0단계 점검으로 되돌아간다.
 
 ## 5단계: config 저장
 
