@@ -8,7 +8,7 @@
     {
       "name": "kgulec",
       "source": "./",
-      "description": "경기대 대학 강의용 LaTeX Beamer 슬라이드 생성·수정·실습코드·테마 셋업 플러그인"
+      "description": "경기대 대학 강의용 LaTeX Beamer 슬라이드 생성·수정·실습코드·웹 슬라이드·테마 셋업 플러그인"
     }
   ]
 }
