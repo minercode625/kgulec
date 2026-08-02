@@ -1,6 +1,6 @@
 # kgulec — KGU Beamer Lecture
 
-경기대학교 대학 강의를 위한 **LaTeX Beamer 슬라이드 생성·수정·실습코드·테마 셋업 Claude Code 플러그인**.
+경기대학교 대학 강의를 위한 **LaTeX Beamer 슬라이드 생성·수정·실습코드·웹 슬라이드·테마 셋업 Claude Code 플러그인**.
 
 **전공 무관** — 슬라이드 생성 골격(템플릿·디자인·분량·오버플로 검사)은 분야에 종속되지 않는다. `/kgulec:setup`에서 지정한 **주요 도메인(분야)**에 맞춰 후보 토픽·**웹검색·내용 생성**이 그 분야 기준으로 이뤄지므로(동음이의 혼입 방지), CS/공학뿐 아니라 인문·사회·자연과학 등 어떤 전공 강의에도 쓸 수 있다. (단 실습코드 모드 `/kgulec:code`는 Python/HTML 코드 데모라 CS·공학 강의에 가장 잘 맞는다.)
 
@@ -31,6 +31,8 @@
 
 **OS 무관 동작**: 폴더 생성·복사 등 내부 명령은 macOS/Linux(bash)와 Windows(PowerShell) 모두 지원한다. 스킬이 실행 OS를 확인해 맞는 명령을 쓴다. 사용자 설정 경로: macOS/Linux `~/.claude/kgulec/`, Windows `%USERPROFILE%\.claude\kgulec\`.
 
+**백신(안티바이러스) 친화**: 품질검사·미리보기에서 생기는 임시 파일(렌더 PNG·스크린샷·설치 파일)은 시스템 temp(`/tmp`, `%TEMP%`)가 아니라 **작업 폴더 안 `./.kgulec-tmp/`**에 만들고, 검사가 끝나면 자동 삭제한다 — 시스템 temp 사용이 백신에 해킹 의심으로 오탐되는 것을 막기 위함이다(`shared/temp-files-policy.md`).
+
 ## 설치 (마켓플레이스)
 
 > 두 명령을 한 번에 붙여넣으면 일부 환경에서 에러가 난다. **Step 1 실행 후, Step 2를 따로** 실행한다.
@@ -57,8 +59,9 @@
 | `/kgulec:edit` | B 수정 | 기존 `main.tex` 수정·삭제·순서변경·교체·보강 | 명시 + 자연어 자동 |
 | `/kgulec:code` | C 실습 | 강의 내용 기반 실습 프로그램(Python/HTML) | 명시 + 자연어 자동 |
 | `/kgulec:setup` | D 셋업 | 색 테마 + 공통 설정(교수명·소속·언어·강의시간) | **명시 전용** |
+| `/kgulec:web` | E 웹 슬라이드 | 기존 `main.tex` → 움직이는 HTML 프레젠테이션(`slides.html`) 변환 | 명시 + 자연어 자동 |
 
-A/B/C는 "강의자료 만들어줘" 같은 자연어로도 자동 트리거된다. `setup`은 `/kgulec:setup`으로만 실행된다.
+A/B/C/E는 "강의자료 만들어줘", "움직이는 ppt로 바꿔줘" 같은 자연어로도 자동 트리거된다. `setup`은 `/kgulec:setup`으로만 실행된다.
 
 ## 사용법
 
@@ -114,6 +117,19 @@ A/B/C는 "강의자료 만들어줘" 같은 자연어로도 자동 트리거된�
 
 `main.pdf`를 읽어 수업시간에 보여줄 실습을 3가지 이상 추천하고, 고른 것을 같은 폴더 `code/`에 Python 또는 HTML로 작성한다.
 
+### 5. 움직이는 HTML 프레젠테이션 만들기
+
+```
+/kgulec:web
+```
+
+또는 `"움직이는 ppt로 바꿔줘"`, `"웹 프레젠테이션 만들어줘"`처럼. 기존 `main.tex`를 **내용·순서 1:1 유지**한 채 애니메이션 있는 **단일 자립 `slides.html`**로 변환한다(reveal.js 인라인 + 이미지 base64 임베드 — 인터넷 없이 파일 하나로 발표).
+
+- 디자인은 Beamer 테마 그대로 재현(주색 4색·tcolorbox·Madrid 하단바), 요소는 클릭마다 순차 등장.
+- **Beamer PDF처럼 꽉 찬 레이아웃이 하드 룰** — 위아래 죽은 여백 금지, 여백이 남으면 폰트·이미지를 키워 채운다.
+- 조작: 방향키/스페이스 진행, `ESC` 오버뷰, `F` 전체화면, `slides.html?print-pdf`로 PDF 백업.
+- 소스는 `web_src/`에 보존되어 이후 수정도 `/kgulec:web`으로 재빌드한다. Python 3만 있으면 된다(빌드 스크립트용).
+
 ## 사용자 설정 (업데이트 안전)
 
 공통 설정은 **플러그인 폴더 바깥** `~/.claude/kgulec/config.md`에 저장된다. 같은 폴더의 `~/.claude/kgulec/gotcha/`에는 작업 중 새로 발견한 컴파일 에러 기록이 쌓인다. 둘 다 플러그인 폴더 바깥이라 업데이트(`/plugin update`)해도 유지된다. (번들 `shared/gotcha/`는 읽기전용 참조 — 새 기록은 사용자 폴더에만 쓴다.)
@@ -137,15 +153,19 @@ kgulec/
     edit/SKILL.md               모드 B: 수정·보완
     code/SKILL.md               모드 C: 실습코드
     setup/SKILL.md              모드 D: 셋업 (수동 전용)
+    web/SKILL.md                모드 E: 웹 슬라이드 (main.tex → slides.html)
   shared/                       ${CLAUDE_PLUGIN_ROOT}/shared 로 참조
     beamer-templates.md         표준 프리앰블·패턴 (PRIMARY THEME 블록)
     slide-authoring-rules.md    디자인·분량·오버플로우·주의 (A·B 공통)
+    html-slides-template.md     HTML 슬라이드 CSS·빌드·변환 매핑·꽉찬 레이아웃 규칙 (E 전용)
     color-presets.md            색 프리셋 카탈로그
     config-schema.md            사용자 설정 스키마 + 마이그레이션 규칙
     environment-check.md        TeX·PDF→PNG 도구 점검 + 설치 안내(setup 하드 게이트 / A·B·C 비차단)
+    temp-files-policy.md        임시 파일 정책 — 시스템 temp 금지, ./.kgulec-tmp/ 사용 후 삭제 (백신 오탐 방지)
     gotcha/                     반복 실수 방지 기록 (번들·읽기전용; 사용자 발견분은 ~/.claude/kgulec/gotcha/)
   assets/
     kyonggi_logo.png            경기대 로고 (상표, 사용자 배치)
+    web/                        reveal.js 5.x 번들 (모드 E용, MIT — CDN 불필요)
     README.md
   README.md  LICENSE
 ```
@@ -172,5 +192,7 @@ kgulec/
 ## 라이선스
 
 [MIT License](LICENSE) — © 2026 서왕덕.
+
+번들된 [reveal.js](https://revealjs.com)(`assets/web/`)는 MIT License — © Hakim El Hattab(파일 헤더에 라이선스 고지 포함).
 
 단, **경기대학교 로고(`assets/kyonggi_logo.png`)는 경기대학교 상표로 MIT 적용 대상이 아니다.** 다른 곳에서 재사용할 때는 로고 파일을 제거하고 각자의 로고로 교체한다.
