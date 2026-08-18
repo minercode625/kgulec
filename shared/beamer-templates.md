@@ -135,7 +135,7 @@
   \fill[mqdeepblue] (current page.north west) rectangle (current page.south east);
   \fill[mqlightblue] ([yshift=-1.25cm]current page.north west) rectangle ([yshift=-2.35cm]current page.north east);
   \fill[white] ([xshift=0.85cm,yshift=-2.85cm]current page.north west) rectangle ([xshift=-0.85cm,yshift=0.9cm]current page.south east);
-  \fill[conceptbg] ([xshift=0.85cm,yshift=-2.85cm]current page.north west) rectangle ([xshift=1.15cm,yshift=0.9cm]current page.south east);
+  \fill[conceptbg] ([xshift=0.85cm,yshift=-2.85cm]current page.north west) rectangle ([xshift=1.15cm,yshift=0.9cm]current page.south west);
 \end{tikzpicture}
 \vspace{1.25cm}
 \begin{center}

@@ -11,3 +11,8 @@
 ## `&` (프레임 제목·본문) → `Misplaced alignment tab`
 **증상** 에러가 엉뚱하게 `\end{frame}`을 가리킴. frametitle은 movable arg라 더 잘 깨짐.
 **해결** tabular/matrix 열구분 `&`만 raw, 그 외 모든 텍스트(제목·박스타이틀·본문·`\section{}`)의 `&`는 `\&`.
+
+## `\mathbb{1}` (지시함수) → 엉뚱한 기호
+**증상** `$\varphi'=\mathbb{1}[z>0]$` 가 `1` 이 아니라 `⊮` 비슷한 기호로 조판됨. 에러·경고 없음.
+**원인** amssymb `\mathbb` 폰트에는 **대문자 알파벳만** 있다. 숫자 슬롯에 다른 글리프가 들어 있다.
+**해결** 표준 프리앰블에 `bbm` 이 있으므로 `\mathbbm{1}` 을 쓴다.

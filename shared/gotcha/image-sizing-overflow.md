@@ -14,6 +14,12 @@
 **증상** `width=0.78\textwidth`로 넣고 같은 프레임에 박스 추가 → `Overfull \vbox (...too high)`, footline 침범.
 **해결** 같은 프레임에 박스/텍스트가 있으면 `height=` 명시: 박스 1개 `height=4.0~4.4cm`, 2개 이상 `3.4~3.8cm`. 이미지 단독이면 `width=0.86\textwidth`까지 OK.
 
+## columns 안에서는 `height=`가 컬럼 폭을 넘긴다
+
+**증상** `Overfull \hbox (10~16pt too wide)`. 0.44열에 4:3 그림(1280x960)을 `height=4.2cm`로 넣으면 환산 폭 5.6cm > 열 폭 5.24cm(=0.44x11.9).
+**원인** 위의 "정사각~4:3은 `height=`" 규칙은 **전체 폭 프레임** 기준이다. 좁은 열에서는 height가 폭을 결정해 버린다.
+**해결** 열 안에서 종횡비 >= 1인 그림은 `width=\linewidth`를 쓰고 높이를 환산해 7cm 예산을 확인한다 --- 높이 ~= (열비율 x 11.9cm) / 종횡비. 진짜 세로형(비율 < 0.9)만 `height=`를 쓰되 `height x 종횡비 <= 열 폭`인지 검산한다.
+
 ## 일반 규칙
 - 작업 전 `identify` / `sips -g pixelWidth -g pixelHeight`로 원본 비율 확인.
 - 가로≫세로(>2:1) → `width=`. 세로≫가로 → `height=`. 정사각~4:3 → 단독이면 무엇이든, 박스와 함께면 `height=`.
